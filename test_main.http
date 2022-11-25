@@ -1,0 +1,19 @@
+# Test your FastAPI endpoints
+
+GET http://127.0.0.1:8000/orders/
+Accept: application/json
+
+###
+
+POST http://127.0.0.1:8000/orders
+Accept: application/json
+
+###
+
+POST http://127.0.0.1:8000/orders/ac37cd30-8d87-4d3f-a383-058ac5c23d9f/lines/
+Accept: application/json
+
+{
+"sku": 1,
+"quantity": 2
+}
