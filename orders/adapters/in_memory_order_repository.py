@@ -1,36 +1,25 @@
 from __future__ import annotations
-from orders.application.domain.ports.required.repositories import OrderRepository, OrderCriteria
+from orders.application.domain.ports.required.repositories import OrderRepository, Equals, Not, Criteria
 from orders.application.domain.models.order import Order
 from typing import Any, List
 
 
-class InMemoryOrderCriteria(OrderCriteria):
-    def __init__(self):
-        self.filters: List[tuple[str, Any]] = []
-
-    def pk_is(self, pk) -> InMemoryOrderCriteria:
-        self.filters.append(("id", pk))
-        return self
-
-    def for_delivery_date(self, delivery_date) -> InMemoryOrderCriteria:
-        self.filters.append(("delivery_date", delivery_date))
-        return self
-
-
 class InMemoryOrderRepository(OrderRepository):
-    all = InMemoryOrderCriteria()
-
     def __init__(self):
         self.orders = {}
 
-    def find(self, criteria: InMemoryOrderCriteria):
+    def find(self, *criteria_list: Criteria):
         orders = self.orders.values()
-        for field, value in criteria.filters:
-            filtered_orders = []
-            for order in orders:
-                if getattr(order, field) == value:
-                    filtered_orders.append(order)
-            orders = filtered_orders
+        for criteria in criteria_list:
+            orders = self._apply_criteria(orders, criteria)
+        return orders
+
+    def _apply_criteria(self, orders: List[Order], criteria: Criteria):
+        if isinstance(criteria, Equals):
+            return list(filter(lambda x: getattr(x, criteria.field) == criteria.value, orders))
+        if isinstance(criteria, Not):
+            excluded = self._apply_criteria(orders, criteria.criteria)
+            return [order for order in orders if order not in excluded]
         return orders
 
     def create_order(self, order: Order):
