@@ -1,0 +1,16 @@
+from __future__ import annotations
+from abc import ABC
+from orders.application.domain.models.order import Order
+
+
+class OrderCriteria(ABC):
+    def pk_is(self, pk) -> OrderCriteria: ...
+    def for_delivery_date(self, delivery_date) -> OrderCriteria: ...
+
+
+class OrderRepository(ABC):
+    all = OrderCriteria()
+
+    def find(self, criteria: OrderCriteria): ...
+    def create_order(self, order: Order): ...
+    def update_order(self, order: Order): ...

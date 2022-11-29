@@ -1,7 +1,7 @@
 from dependency_injector.wiring import Provide, inject
 from containers import Container
-from application.domain.ports.required.repositories import OrderRepository
-from application.domain.order import OrderLine, Order
+from orders.application.domain.ports.required.repositories import OrderRepository
+from orders.application.domain.models.order import OrderLine, Order
 
 
 @inject

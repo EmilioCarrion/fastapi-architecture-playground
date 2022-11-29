@@ -1,3 +1,4 @@
+from datetime import datetime
 from dataclasses import dataclass
 from typing import List
 
@@ -11,6 +12,8 @@ class OrderLine:
 @dataclass
 class Order:
     id: str
+    user_id: str
+    delivery_date: datetime
     lines: List[OrderLine]
 
     def add_line(self, line: OrderLine):

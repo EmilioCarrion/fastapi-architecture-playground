@@ -2,8 +2,8 @@ import uuid
 
 from dependency_injector.wiring import Provide, inject
 from containers import Container
-from application.domain.ports.required.repositories import OrderRepository
-from application.domain.order import Order
+from orders.application.domain.ports.required.repositories import OrderRepository
+from orders.application.domain.models.order import Order
 
 
 @inject

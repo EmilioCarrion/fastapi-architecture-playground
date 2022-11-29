@@ -1,5 +1,5 @@
 from dependency_injector import containers, providers
-from adapters.in_memory_order_repository import InMemoryOrderRepository
+from orders.adapters import InMemoryOrderRepository
 
 
 class Container(containers.DeclarativeContainer):
